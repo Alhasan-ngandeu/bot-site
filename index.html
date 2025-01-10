@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MONEY AFRIQUE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MONEY AFRIQUE</h1>
+            <div class="header-icons">
+                <i class="fas fa-ellipsis-vertical"></i>
+                <i class="fas fa-times"></i>
+            </div>
+        </header>
+
+        <!-- Profile Section -->
+        <div class="profile-section">  
+            <div class="player-profile-enhanced">  
+                <div class="player-avatar-enhanced">  
+                    <div class="avatar-border">  
+                        <i class="fas fa-user"></i>  
+                    </div>  
+                    <div class="avatar-glow"></div>  
+                </div>  
+                <div class="player-info">  
+                    <span class="player-name" data-translate="player">Joueur</span>  
+                    <p class="player-status">En ligne</p>  
+                </div>  
+            </div>  
+            
+            <!-- Nouveau badge de niveau -->
+            <div class="level-badge">
+                <div class="level-circle">
+                    <span class="level-number">1</span>
+                    <div class="level-ring"></div>
+                </div>
+                <div class="level-progress">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+        
+            <div class="settings-icon-enhanced" id="settingsBtn">  
+                <i class="fas fa-cog"></i>  
+                <div class="settings-pulse"></div>  
+            </div>  
+        </div>
+
+        <!-- Card -->
+        <div class="card-wrapper">  
+            <div class="card">  
+                <div class="card-header">  
+                    <div class="card-logo">MONEY AFRIQUE</div>  
+                    <div class="card-chip"></div>  
+                </div>  
+                <div class="card-content">  
+                    <p class="balance-label" data-translate="balance">Votre Solde</p>  
+                    <h2 class="balance-amount"><span id="balance">0</span> FCFA</h2>  
+                </div>  
+                <div class="card-footer">  
+                    <p class="card-holder">MONEY AFRIQUE</p>  
+                    <p class="expiry" data-translate="expires">EXPIRE LE 12/25</p>  
+                </div>  
+            </div>  
+        </div>
+
+        <!-- Transaction Section -->
+        <div class="trophy-button-container">  
+            <div class="trophy-button" id="trophyBtn">  
+                <div class="trophy-icon-wrapper">  
+                    <i class="fas fa-trophy trophy-icon"></i>  
+                    <div class="trophy-icon-glow"></div>  
+                </div>  
+                <div class="trophy-ripple"></div>  
+            </div>  
+        </div>
+
+        <nav class="bottom-nav-enhanced">  
+            <div class="nav-item-enhanced active" id="taperBtn">  
+                <div class="nav-icon-wrapper">  
+                    <i class="fas fa-hand-pointer"></i>  
+                    <div class="nav-icon-glow"></div>  
+                </div>  
+                <span class="nav-label" data-translate="tap">Taper</span>  
+            </div>  
+            <div class="nav-item-enhanced" id="tasksBtn">  
+                <div class="nav-icon-wrapper">  
+                    <i class="fas fa-tasks"></i>  
+                    <div class="nav-icon-glow"></div>  
+                </div>  
+                <span class="nav-label" data-translate="tasks">Tâches</span>  
+            </div>  
+            <div class="nav-item-enhanced" id="minigameBtn">  
+                <div class="nav-icon-wrapper">  
+                    <i class="fas fa-gamepad"></i>  
+                    <div class="nav-icon-glow"></div>  
+                </div>  
+                <span class="nav-label" data-translate="minigame">Mini-jeu</span>  
+            </div>  
+            <div class="nav-item-enhanced" id="withdrawBtn">  
+                <div class="nav-icon-wrapper">  
+                    <i class="fas fa-wallet"></i>  
+                    <div class="nav-icon-glow"></div>  
+                </div>  
+                <span class="nav-label" data-translate="withdraw">Retirer</span>  
+            </div>  
+        </nav>
+    </div>
+
+    <!-- Language Modal -->
+    <div class="modal" id="languageModal">
+        <div class="modal-content">
+            <h2 data-translate="select-language">Sélectionner la langue</h2>
+            <div class="language-options">
+                <button class="language-btn" data-lang="fr">Français</button>
+                <button class="language-btn" data-lang="en">English</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>  
+    <div id="particles-js"></div>
+</body>
+</html>
+

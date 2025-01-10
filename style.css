@@ -1,0 +1,676 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #000;
+    color: white;
+}
+ 
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    position: relative;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header-icons {
+    display: flex;
+    gap: 20px;
+}
+
+/* Profile section styles */
+.profile-section {  
+    display: flex;  
+    justify-content: space-between;  
+    align-items: center;  
+    margin-bottom: 30px;  
+    padding: 0 10px;  
+}  
+
+.player-profile-enhanced {  
+    display: flex;  
+    align-items: center;  
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);  
+    padding: 12px 20px;  
+    border-radius: 50px;  
+    box-shadow:   
+        0 6px 20px rgba(0, 0, 0, 0.3),  
+        inset 0 2px 5px rgba(255, 215, 0, 0.1);  
+    gap: 15px;  
+    transition: all 0.3s ease;  
+}  
+
+.player-profile-enhanced:hover {  
+    transform: translateY(-3px);  
+    box-shadow:   
+        0 8px 25px rgba(0, 0, 0, 0.4),  
+        inset 0 2px 5px rgba(255, 215, 0, 0.2);  
+}  
+
+.player-avatar-enhanced {  
+    position: relative;  
+    width: 50px;  
+    height: 50px;  
+}  
+
+.avatar-border {  
+    width: 100%;  
+    height: 100%;  
+    background: linear-gradient(145deg, #FFD700, #FFA500);  
+    border-radius: 50%;  
+    display: flex;  
+    align-items: center;  
+    justify-content: center;  
+    position: relative;  
+    z-index: 2;  
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);  
+}  
+
+.avatar-border i {  
+    color: black;  
+    font-size: 24px;  
+}  
+
+.avatar-glow {  
+    position: absolute;  
+    top: -5px;  
+    left: -5px;  
+    right: -5px;  
+    bottom: -5px;  
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.3), transparent 70%);  
+    border-radius: 50%;  
+    animation: avatar-pulse 2s infinite alternate;  
+    z-index: 1;  
+}  
+
+@keyframes avatar-pulse {  
+    0% {  
+        transform: scale(1);  
+        opacity: 0.6;  
+    }  
+    100% {  
+        transform: scale(1.1);  
+        opacity: 0.8;  
+    }  
+}  
+
+.player-info {  
+    display: flex;  
+    flex-direction: column;  
+}  
+
+.player-name {  
+    font-weight: 600;  
+    color: #FFD700;  
+    letter-spacing: 0.5px;  
+    margin-bottom: 2px;  
+}  
+
+.player-status {  
+    font-size: 0.7em;  
+    color: rgba(255, 215, 0, 0.7);  
+}  
+
+.settings-icon-enhanced {  
+    position: relative;  
+    width: 50px;  
+    height: 50px;  
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);  
+    border-radius: 50%;  
+    display: flex;  
+    align-items: center;  
+    justify-content: center;  
+    box-shadow:   
+        0 6px 20px rgba(0, 0, 0, 0.3),  
+        inset 0 2px 5px rgba(255, 215, 0, 0.1);  
+    cursor: pointer;  
+    transition: all 0.3s ease;  
+}  
+
+.settings-icon-enhanced:hover {  
+    transform: rotate(45deg) scale(1.1);  
+    box-shadow:   
+        0 8px 25px rgba(0, 0, 0, 0.4),  
+        inset 0 2px 5px rgba(255, 215, 0, 0.2);  
+}  
+
+.settings-icon-enhanced i {  
+    color: #FFD700;  
+    font-size: 24px;  
+    position: relative;  
+    z-index: 2;  
+}  
+
+.settings-pulse {  
+    position: absolute;  
+    top: -10px;  
+    left: -10px;  
+    right: -10px;  
+    bottom: -10px;  
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.2), transparent 70%);  
+    border-radius: 50%;  
+    animation: settings-pulse 1.5s infinite alternate;  
+    z-index: 1;  
+}  
+
+@keyframes settings-pulse {  
+    0% {  
+        transform: scale(1);  
+        opacity: 0.5;  
+    }  
+    100% {  
+        transform: scale(1.2);  
+        opacity: 0.7;  
+    }  
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    max-width: 90%;
+    width: 300px;
+}
+
+.modal-content h2 {
+    color: #FFD700;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.language-options {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.language-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(145deg, #FFD700, #FFA500);
+    color: black;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.language-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.language-btn.active {
+    background: linear-gradient(145deg, #FFA500, #FFD700);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+}
+
+/* Rest of the existing styles */
+.card-wrapper {  
+    perspective: 1000px;  
+    margin-bottom: 10px; 
+    margin-top: -10px; 
+}  
+
+.card {  
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);  
+    border-radius: 20px;  
+    padding: 25px;  
+    color: #FFD700;  
+    position: relative;  
+    overflow: hidden;  
+    box-shadow:   
+        0 10px 30px rgba(0, 0, 0, 0.4),  
+        0 0 20px rgba(255, 215, 0, 0.2);  
+    transition: transform 0.5s ease;  
+}  
+
+.card:hover {  
+    transform: rotateY(10deg) scale(1.02);  
+}  
+
+.card-header {  
+    display: flex;  
+    justify-content: space-between;  
+    align-items: center;  
+    margin-bottom: 20px;  
+}  
+
+.card-logo {  
+    font-weight: bold;  
+    color: #FFD700;  
+    letter-spacing: 1px;  
+    opacity: 0.8;  
+}  
+
+.card-chip {  
+    width: 50px;  
+    height: 40px;  
+    background: linear-gradient(145deg, #FFD700, #FFA500);  
+    border-radius: 8px;  
+    position: relative;  
+    overflow: hidden;  
+}  
+
+.card-chip::before {  
+    content: '';  
+    position: absolute;  
+    top: 5px;  
+    left: 5px;  
+    right: 5px;  
+    bottom: 5px;  
+    background: rgba(255, 255, 255, 0.1);  
+    border-radius: 4px;  
+}  
+
+.card-content {  
+    text-align: center;  
+    margin-bottom: 20px;  
+}  
+
+.balance-label {  
+    font-size: 0.9em;  
+    color: rgba(255, 215, 0, 0.7);  
+    margin-bottom: 10px;  
+}  
+
+.balance-amount {  
+    font-size: 2em;  
+    color: #FFD700;  
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  
+}  
+
+.card-footer {  
+    display: flex;  
+    justify-content: space-between;  
+    align-items: center;  
+    border-top: 1px solid rgba(255, 215, 0, 0.2);  
+    padding-top: 15px;  
+}  
+
+.card-holder, .expiry {  
+    font-size: 0.8em;  
+    opacity: 0.7;  
+}  
+
+.card::after {  
+    content: '';  
+    position: absolute;  
+    top: -50%;  
+    left: -50%;  
+    width: 200%;  
+    height: 200%;  
+    background: radial-gradient(  
+        circle at center,   
+        rgba(255, 215, 0, 0.1),   
+        transparent 70%  
+    );  
+    animation: card-shine 5s infinite linear;  
+}  
+
+/* Carte de solde avec effet glassmorphism */  
+.balance-card {  
+    background: rgba(40, 50, 70, 0.5);  
+    backdrop-filter: blur(10px);  
+    border-radius: 20px;  
+    padding: 20px;  
+    margin-bottom: 20px;  
+    box-shadow:   
+        0 10px 30px rgba(0, 0, 0, 0.3),  
+        inset 0 2px 5px rgba(255, 255, 255, 0.1);  
+    border: 1px solid rgba(255, 255, 255, 0.1);  
+}  
+
+
+@keyframes card-shine {  
+    0% {  
+        transform: rotate(0deg);  
+    }  
+    100% {  
+        transform: rotate(360deg);  
+    }  
+}
+
+.trophy-button-container {  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    margin: 20px 0;  
+}  
+
+.trophy-button {  
+    position: relative;  
+    width: 160px;  
+    height: 160px;
+    margin-top: -10px;
+    margin-bottom: 50px;  
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);  
+    border-radius: 80%;  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    cursor: pointer;  
+    box-shadow:   
+        10px 10px 20px rgba(0, 0, 0, 0.3),  
+        -10px -10px 20px rgba(50, 50, 50, 0.1);  
+    transition: all 0.3s ease;  
+    overflow: hidden;  
+}  
+
+.trophy-button:hover {  
+    transform: scale(1.05);  
+    box-shadow:   
+        15px 15px 25px rgba(0, 0, 0, 0.4),  
+        -15px -15px 25px rgba(50, 50, 50, 0.2);  
+}  
+
+.trophy-button:active {  
+    transform: scale(0.95);  
+    box-shadow:   
+        5px 5px 15px rgba(0, 0, 0, 0.3),  
+        -5px -5px 15px rgba(50, 50, 50, 0.1);  
+}  
+
+.trophy-icon-wrapper {  
+    position: relative;  
+    z-index: 2;  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+}  
+
+.trophy-icon {  
+    color: #FFD700;  
+    font-size: 48px;  
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);  
+}  
+
+.trophy-icon-glow {  
+    position: absolute;  
+    top: -20px;  
+    left: -20px;  
+    right: -20px;  
+    bottom: -20px;  
+    background: radial-gradient(  
+        circle,   
+        rgba(255, 215, 0, 0.2),   
+        transparent 70%  
+    );  
+    border-radius: 50%;  
+    opacity: 0;  
+    transition: opacity 0.3s ease;  
+    z-index: 1;  
+}  
+
+.trophy-button:hover .trophy-icon-glow {  
+    opacity: 1;  
+}  
+
+.trophy-ripple {  
+    position: absolute;  
+    top: 50%;  
+    left: 50%;  
+    transform: translate(-50%, -50%);  
+    width: 0;  
+    height: 0;  
+    background: rgba(255, 215, 0, 0.2);  
+    border-radius: 50%;  
+    opacity: 0;  
+    transition: all 0.5s ease;  
+    z-index: 1;  
+}  
+
+.trophy-button.ripple .trophy-ripple {  
+    width: 200%;  
+    height: 200%;  
+    opacity: 1;  
+}
+
+.bottom-nav-enhanced {  
+    position: fixed;  
+    bottom: 0;  
+    left: 0;  
+    right: 0;  
+    display: flex;  
+    justify-content: space-around;  
+    align-items: center;  
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);  
+    padding: 10px 0;  
+    box-shadow:   
+        0 -5px 20px rgba(0, 0, 0, 0.3),  
+        inset 0 2px 5px rgba(255, 215, 0, 0.1);  
+    max-width: 400px;  
+    margin: 0 auto;  
+    border-top-left-radius: 20px;  
+    border-top-right-radius: 20px;  
+    z-index: 1000;  
+}  
+
+.nav-item-enhanced {  
+    display: flex;  
+    flex-direction: column;  
+    align-items: center;  
+    cursor: pointer;  
+    position: relative;  
+    transition: all 0.3s ease;  
+    opacity: 0.6;  
+}  
+
+.nav-item-enhanced.active {  
+    opacity: 1;  
+}  
+
+.nav-icon-wrapper {  
+    position: relative;  
+    width: 50px;  
+    height: 50px;  
+    display: flex;  
+    align-items: center;  
+    justify-content: center;  
+    background: linear-gradient(145deg, #1a1a1a, #2a2a2a);  
+    border-radius: 50%;  
+    box-shadow:   
+        5px 5px 10px rgba(0, 0, 0, 0.3),  
+        -5px -5px 10px rgba(50, 50, 50, 0.1);  
+    transition: all 0.3s ease;  
+}  
+
+.nav-item-enhanced:hover .nav-icon-wrapper,  
+.nav-item-enhanced.active .nav-icon-wrapper {  
+    transform: scale(1.1);  
+    box-shadow:   
+        5px 5px 15px rgba(0, 0, 0, 0.4),  
+        -5px -5px 15px rgba(50, 50, 50, 0.2);  
+}  
+
+.nav-icon-wrapper i {  
+    color: #FFD700;  
+    font-size: 24px;  
+    position: relative;  
+    z-index: 2;  
+}  
+
+.nav-icon-glow {  
+    position: absolute;  
+    top: -10px;  
+    left: -10px;  
+    right: -10px;  
+    bottom: -10px;  
+    background: radial-gradient(  
+        circle,   
+        rgba(255, 215, 0, 0.2),   
+        transparent 70%  
+    );  
+    border-radius: 50%;  
+    opacity: 0;  
+    transition: opacity 0.3s ease;  
+    z-index: 1;  
+}  
+
+.nav-item-enhanced:hover .nav-icon-glow,  
+.nav-item-enhanced.active .nav-icon-glow {  
+    opacity: 1;  
+}  
+
+.nav-label {  
+    margin-top: 8px;  
+    font-size: 0.7em;  
+    color: #FFD700;  
+    opacity: 0.7;  
+    transition: all 0.3s ease;  
+}  
+
+.nav-item-enhanced:hover .nav-label,  
+.nav-item-enhanced.active .nav-label {  
+    opacity: 1;  
+    transform: translateY(-3px);  
+}  
+
+@keyframes nav-item-pulse {  
+    0% {  
+        transform: scale(1);  
+    }  
+    50% {  
+        transform: scale(1.05);  
+    }  
+    100% {  
+        transform: scale(1);  
+    }  
+}  
+
+.nav-item-enhanced.active {  
+    animation: nav-item-pulse 0.5s ease-in-out;  
+}
+
+
+/* Ajoutez ces styles au fichier style.css */
+
+.level-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin: 0 15px;
+}
+
+.level-circle {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.3),
+        inset 0 2px 5px rgba(255, 215, 0, 0.1);
+}
+
+.level-number {
+    color: #FFD700;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    z-index: 2;
+}
+
+.level-ring {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #FFD700, #FFA500) border-box;
+    mask: 
+        linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    animation: rotate 4s linear infinite;
+}
+
+.level-progress {
+    width: 60px;
+    height: 4px;
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 75%;
+    height: 100%;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Effet Particles.js (optionnel mais recommandé) */  
+#particles-js {  
+    position: fixed;  
+    top: 0;  
+    left: 0;  
+    width: 100%;  
+    height: 100%;  
+    z-index: -2;  
+    opacity: 0.3;  
+} 
+
+
