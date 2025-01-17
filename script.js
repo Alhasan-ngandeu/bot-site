@@ -7,8 +7,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const languageButtons = document.querySelectorAll('.language-btn');
     
     // Initialize balance
-    let balance = parseFloat(balanceElement.textContent) || 0;
-
+    // Initialize balance from localStorage
+    let balance = parseFloat(localStorage.getItem('balance')) || 0;
+    balanceElement.textContent = balance.toFixed(1); // Affiche le solde
+    
     // Translations
     const translations = {
         fr: {
@@ -89,10 +91,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Handle taper button click
+    // Handle taper button click
     taperBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        balance += 0.1;
-        balanceElement.textContent = balance.toFixed(1);
+        balance += 0.5; // Incrémente le solde
+        localStorage.setItem('balance', balance); // Enregistre le solde dans localStorage
+        balanceElement.textContent = balance.toFixed(1); // Met à jour l'affichage
     });
 
     // Ajoutez ce code dans votre fonction DOMContentLoaded existante  
@@ -103,8 +107,9 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();  
         
         // Incrémentation du solde  
-        balance += 0.1;  
-        balanceElement.textContent = balance.toFixed(1);  
+        balance += 0.5;  
+        localStorage.setItem('balance', balance); // Enregistre le solde dans localStorage
+        balanceElement.textContent = balance.toFixed(1); // Met à jour l'affichage
         
         // Animation de ripple  
         this.classList.add('ripple');  

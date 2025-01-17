@@ -1,0 +1,154 @@
+<!DOCTYPE html>  
+<html lang="fr">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Retrait - MONEY AFRIQUE</title>  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
+    <link rel="stylesheet" href="retrait.css">  
+</head>  
+<body>  
+    <div class="container">  
+        <!-- En-tête avec icône retour -->  
+        <header class="withdraw-header">  
+            <a href="jeux.html" class="back-icon">  
+                <i class="fas fa-arrow-left"></i>  
+            </a>  
+            <h1>Retrait</h1>  
+        </header>  
+
+        <!-- Première Section : Solde Disponible -->  
+        <section class="balance-section">  
+            <div class="balance-card">  
+                <div class="balance-header">  
+                    <i class="fas fa-wallet"></i>  
+                    <span>Solde disponible</span>  
+                </div>  
+                <div class="balance-amount">  
+                    <h2 id="withdrawBalance">0</h2>  
+                    <span>FCFA</span>  
+                </div>  
+                <p class="minimum-withdraw">Minimum de retrait 100.000 FCFA</p>  
+            </div>  
+        </section>  
+
+        <!-- Deuxième Section : Méthodes de Paiement -->  
+        <!-- Deuxième Section : Méthodes de Paiement -->  
+        <section class="payment-methods">  
+            <div class="section-header">  
+                <i class="fas fa-credit-card"></i>  
+                <span>Méthodes de Paiement</span>  
+            </div>  
+            <div class="payment-grid">  
+                <button class="payment-option">  
+                    <i class="fas fa-mobile-alt"></i>  
+                    <span>Orange Money</span>  
+                </button>  
+                <button class="payment-option">  
+                    <i class="fab fa-paypal"></i>  
+                    <span>PayPal</span>  
+                </button>  
+                <button class="payment-option">  
+                    <i class="fas fa-mobile-alt"></i>  
+                    <span>Moov Money</span>  
+                </button>  
+                <button class="payment-option">  
+                    <i class="fab fa-bitcoin"></i>  
+                    <span>Binance</span>  
+                </button>  
+                <button class="payment-option">  
+                    <i class="fas fa-mobile-alt"></i>  
+                    <span>MTN Money</span>  
+                </button>  
+                <button class="payment-option">  
+                    <i class="fab fa-telegram"></i>  
+                    <span>TON</span>  
+                </button>  
+            </div>  
+        </section> 
+        <!-- Ajouter juste après la section des méthodes de paiement -->  
+        <section id="paymentDetailsSection" class="payment-details-section" style="display:none;">  
+            <div class="section-header">  
+                <i class="fas fa-info-circle"></i>  
+                <span>Détails du Paiement</span>  
+            </div>  
+            <div class="payment-details-form">  
+                <div class="input-group">  
+                    <label for="fullName">Nom et Prénom complet</label>  
+                    <input type="text" id="fullName" placeholder="Entrez votre nom complet">  
+                </div>  
+                <div class="input-group">  
+                    <label for="paymentAddress">Adresse de Paiement</label>  
+                    <input type="text" id="paymentAddress" placeholder="Entrez votre adresse de paiement">  
+                </div>  
+                <button id="savePaymentDetailsBtn" class="save-btn">Sauvegarder</button>  
+            </div>  
+        </section>  
+
+        <!-- Ajouter un conteneur pour la notification -->  
+        <div id="notificationModal" class="notification-modal">  
+            <div class="notification-content">  
+                <p>Vos informations ont bien été enregistrées</p>  
+            </div>  
+        </div>
+
+        <!-- Troisième Section : Retrait -->  
+        <section class="withdrawal-section">  
+            <div class="section-header">  
+                <i class="fas fa-exchange-alt"></i>  
+                <span>Retrait</span>  
+            </div>  
+            <div class="withdrawal-form">  
+                <div class="input-group">  
+                    <label for="withdrawCode">Code de Retrait</label>  
+                    <input type="text" id="withdrawCode" placeholder="Entrez le code de retrait">  
+                </div>  
+                <button class="withdraw-btn">RETIRER</button>  
+            </div>  
+        </section>  
+
+        <!-- Navigation -->  
+        <nav class="bottom-nav-enhanced">  
+            <div class="nav-item-enhanced active" id="taperBtn">  
+                <a href="index.html" class="nav-item-enhanced">   
+                    <div class="nav-icon-wrapper">  
+                        <i class="fas fa-hand-pointer"></i>  
+                        <div class="nav-icon-glow"></div>  
+                    </div>  
+                    <span class="nav-label" data-translate="tap">Taper</span>
+                </a> 
+            </div>  
+            <div class="nav-item-enhanced" id="tasksBtn">  
+                <div class="nav-icon-wrapper">  
+                    <i class="fas fa-tasks"></i>  
+                    <div class="nav-icon-glow"></div>  
+                </div>  
+                <span class="nav-label" data-translate="tasks">Tâches</span>  
+            </div>  
+            <div class="nav-item-enhanced" id="minigameBtn">
+                <a href="jeux.html" class="nav-item-enhanced">   
+                    <div class="nav-icon-wrapper">  
+                        <i class="fas fa-gamepad"></i>  
+                        <div class="nav-icon-glow"></div>  
+                    </div>  
+                    <span class="nav-label" data-translate="minigame">Mini-jeu</span>  
+                </a>
+            </div>  
+            <div class="nav-item-enhanced" id="withdrawBtn">  
+                <a href="retrait.html" class="nav-item-enhanced">   
+                    <div class="nav-icon-wrapper">  
+                        <i class="fas fa-wallet"></i>  
+                        <div class="nav-icon-glow"></div>  
+                    </div>  
+                    <span class="nav-label" data-translate="withdraw">Retirer</span>
+                </a>
+                
+            </div>  
+        </nav>
+    </div>  
+
+    <script src="retrait.js"></script>  
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>  
+    <div id="particles-js"></div>
+</body>  
+</html>
