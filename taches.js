@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Simuler un système de points/solde
     let userBalance = parseFloat(localStorage.getItem('balance')) || 0; // Récupérer le solde
-    let invitationCount = parseInt(localStorage.getItem('invitationCount')) || 0; // Compteur d'invitations
     const TASK_POINTS = {
         AD_WATCH: 300, // Montant pour chaque publicité
         SHARE_INVITE: 500 // Montant pour chaque invitation
@@ -89,11 +88,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (balanceElement) {
             balanceElement.textContent = userBalance.toFixed(1);
         }
-        localStorage.setItem('balance', userBalance);
-        localStorage.setItem('invitationCount', invitationCount); // Sauvegarder le compteur d'invitations
+        localStorage.setItem('balance', userBalance); // Stocker le solde
     }
 
-    // Fonction pour gérer le visionnage des publicités
+    // Gestion du visionnage des publicités
     function handleWatchAd(button) {
         button.disabled = true;
         button.textContent = "Revenez dans 24h pour regarder une nouvelle publicité";
@@ -120,7 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Générer le lien d'invitation
-    const userId = Date.now(); // Un identifiant unique pour l'utilisateur
+    const userId = localStorage.getItem('userId') || Date.now(); // Identifiant unique pour l'utilisateur
+    localStorage.setItem('userId', userId); // Stocker l'utilisateur
     const inviteLink = `https://alhasan-ngandeu.github.io/bot-site/index.html?ref=${userId}`;
 
     // Gestion de la tâche de partage
@@ -155,8 +154,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const referrerId = urlParams.get('ref');
     if (referrerId) {
-        invitationCount += 1; // Incrémenter le compteur d'invitations
-        userBalance += TASK_POINTS.SHARE_INVITE; // Augmentez le solde de l'utilisateur correspondant
+        // Récupérer le solde de l'utilisateur parrain
+        let referrerBalance = parseFloat(localStorage.getItem(`balance_${referrerId}`)) || 0;
+        referrerBalance += TASK_POINTS.SHARE_INVITE; // Augmenter le solde de l'utilisateur parrain
+        localStorage.setItem(`balance_${referrerId}`, referrerBalance); // Stocker le nouveau solde
+        userBalance += TASK_POINTS.SHARE_INVITE; // Ajouter au solde de l'utilisateur actuel
         updateBalanceDisplay();
         showCustomPopup(`+${TASK_POINTS.SHARE_INVITE} FCFA pour avoir invité un ami !`);
     }
