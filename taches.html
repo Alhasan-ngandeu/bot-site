@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tâches - MONEY AFRIQUE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="taches.css">
+</head>
+<body>
+    <div class="section-container">
+        <div class="withdraw-header">
+            <a href="index.html" class="back-icon">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h2>Tâches Disponibles</h2>
+        </div>
+
+        <div class="task-section payment-methods">
+            <div class="section-header">
+                <i class="fas fa-video"></i>
+                <h3>Regarder une publicité</h3>
+            </div>
+
+            <!-- Sous-section 1 -->
+            <div class="task-card payment-option" id="adTask1">
+                <div class="nav-icon-wrapper">
+                    <i class="fas fa-play"></i>
+                    <div class="nav-icon-glow"></div>
+                </div>
+                <span class="nav-label">+300 FCFA</span>
+                <button id="watchAdBtn1" class="withdraw-btn">Regarder la pub</button>
+            </div>
+
+            <!-- Sous-section 2 -->
+            <div class="task-card payment-option" id="adTask2">
+                <div class="nav-icon-wrapper">
+                    <i class="fas fa-play"></i>
+                    <div class="nav-icon-glow"></div>
+                </div>
+                <span class="nav-label">+300 FCFA</span>
+                <button id="watchAdBtn2" class="withdraw-btn">Regarder la pub</button>
+            </div>
+
+            <!-- Sous-section 3 -->
+            <div class="task-card payment-option" id="adTask3">
+                <div class="nav-icon-wrapper">
+                    <i class="fas fa-play"></i>
+                    <div class="nav-icon-glow"></div>
+                </div>
+                <span class="nav-label">+300 FCFA</span>
+                <button id="watchAdBtn3" class="withdraw-btn">Regarder la pub</button>
+            </div>
+        </div>
+
+        <div class="task-section payment-methods">
+            <div class="section-header">
+                <i class="fas fa-share-alt"></i>
+                <h3>Inviter des amis</h3>
+                <p class="invite-reward">Invitez 1 ami et gagnez 500 FCFA</p> <!-- Nouveau texte -->
+            </div>
+            <div class="task-card payment-option" id="shareTask">
+                <div class="nav-icon-wrapper">
+                    <i class="fas fa-users"></i>
+                    <div class="nav-icon-glow"></div>
+                </div>
+                <span class="nav-label">+500 FCFA</span>
+                <button id="shareBtn" class="withdraw-btn">Partager</button>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav-enhanced">  
+            <div class="nav-item-enhanced active" id="taperBtn">  
+                <a href="index.html" class="nav-item-enhanced">   
+                    <div class="nav-icon-wrapper">  
+                        <i class="fas fa-hand-pointer"></i>  
+                        <div class="nav-icon-glow"></div>  
+                    </div>  
+                    <span class="nav-label" data-translate="tap">Taper</span>
+                </a> 
+            </div>  
+            <div class="nav-item-enhanced" id="tasksBtn">  
+                <a href="taches.html" class="nav-item-enhanced">   
+                    <div class="nav-icon-wrapper">  
+                        <i class="fas fa-tasks"></i>  
+                        <div class="nav-icon-glow"></div>  
+                    </div>  
+                    <span class="nav-label" data-translate="tasks">Tâches</span>
+                </a>  
+            </div>  
+            <div class="nav-item-enhanced" id="minigameBtn">
+                <a href="jeux.html" class="nav-item-enhanced">   
+                    <div class="nav-icon-wrapper">  
+                        <i class="fas fa-gamepad"></i>  
+                        <div class="nav-icon-glow"></div>  
+                    </div>  
+                    <span class="nav-label" data-translate="minigame">Mini-jeu</span>  
+                </a>
+            </div>  
+            <div class="nav-item-enhanced" id="withdrawBtn">  
+                <a href="retrait.html" class="nav-item-enhanced">   
+                    <div class="nav-icon-wrapper">  
+                        <i class="fas fa-wallet"></i>  
+                        <div class="nav-icon-glow"></div>  
+                    </div>  
+                    <span class="nav-label" data-translate="withdraw">Retirer</span>
+                </a>
+                
+            </div>  
+        </nav>
+    </div>
+
+    <!-- Popups -->
+    <div id="insufficientBalancePopup" style="display:none;">
+        <div class="popup-icon">
+            <i class="fas fa-times-circle"></i>
+        </div>
+        <div class="popup-content">
+            <p id="popupMessage">Message</p>
+        </div>
+    </div>
+
+    <div id="successPopup" style="display:none;">
+        <div class="popup-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="popup-content">
+            <p id="successMessage">Message</p>
+        </div>
+    </div>
+
+    <script src="taches.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>  
+    <div id="particles-js"></div>
+</body>
+</html>

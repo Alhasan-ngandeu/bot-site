@@ -1,0 +1,265 @@
+:root {
+    --primary-color: #2a2a2a;
+    --secondary-color: #FFD700; /* Utilisation de la couleur dorée */
+    --background-color: #000; /* Fond noir comme dans style.css */
+    --text-color: #ffffff; /* Texte blanc */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    max-width: 480px;
+    margin: 0 auto;
+    overflow-x: hidden;
+}
+
+.section-container {  
+    max-width: 400px;  
+    margin: 0 auto;  
+    padding: 20px;  
+    border-radius: 20px;  
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);  
+}  
+
+.withdraw-header {  
+    display: flex;  
+    align-items: center;  
+    margin-bottom: 20px;  
+}  
+
+.back-icon {  
+    color: #FFD700;  
+    margin-right: 15px;  
+    font-size: 24px;  
+}  
+
+.task-section {  
+    margin-bottom: 20px;  
+    background-color: var(--task-bg-color);  
+    border-radius: 15px;  
+    padding: 15px;  
+}  
+
+.section-header {  
+    display: flex;  
+    align-items: center;  
+    margin-bottom: 15px;  
+}  
+
+.section-header i {  
+    color: #FFD700;  
+    margin-right: 10px;  
+    font-size: 24px;  
+}  
+
+.task-card {  
+    display: flex;  
+    flex-direction: column;  
+    align-items: center;  
+    padding: 20px;  
+    background-color: #2a2a2a;  
+    border-radius: 15px;  
+    transition: all 0.3s ease;  
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);  
+}  
+
+.task-card:hover {  
+    transform: scale(1.05);  
+    background-color: var(--task-hover-color);  
+}  
+
+.task-card .nav-icon-wrapper {  
+    width: 80px;  
+    height: 80px;  
+    margin-bottom: 10px;  
+}  
+
+.task-card .nav-icon-wrapper i {  
+    color: #FFD700;  
+    font-size: 36px;  
+}  
+
+.task-card .nav-label {  
+    color: #FFD700;  
+    margin-bottom: 15px;  
+    font-weight: bold;  
+}  
+
+.withdraw-btn {  
+    background-color: #FFD700;  
+    color: #1e1e1e;  
+    border: none;  
+    padding: 12px 25px;  
+    border-radius: 10px;  
+    font-weight: bold;  
+    transition: all 0.3s ease;  
+    width: 100%;  
+}  
+
+.withdraw-btn:hover {  
+    background-color: #FFA500;  
+    transform: scale(1.05);  
+}  
+
+.withdraw-btn:disabled {  
+    background-color: #666;  
+    color: #999;  
+    cursor: not-allowed;  
+    transform: none;  
+}  
+
+/* Responsive Design */  
+@media (max-width: 400px) {  
+    .section-container {  
+        padding: 10px;  
+    }  
+}
+
+.bottom-nav-enhanced {  
+    position: relative;  
+    bottom: 0;  
+    left: 0;  
+    right: 0;  
+    display: flex;  
+    justify-content: space-around;  
+    align-items: center;  
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);  
+    padding: 10px 0;  
+    box-shadow:   
+        0 -5px 20px rgba(0, 0, 0, 0.3),  
+        inset 0 2px 5px rgba(255, 215, 0, 0.1);  
+    max-width: 400px;  
+    margin: 0 auto;  
+    border-top-left-radius: 20px;  
+    border-top-right-radius: 20px;  
+    z-index: 1000;  
+}  
+
+.nav-item-enhanced {  
+    display: flex;  
+    flex-direction: column;  
+    align-items: center;  
+    cursor: pointer;  
+    position: relative;  
+    transition: all 0.3s ease;  
+    opacity: 0.6;  
+}  
+
+.nav-item-enhanced.active {  
+    opacity: 1;  
+}  
+
+.nav-icon-wrapper {  
+    position: relative;  
+    width: 50px;  
+    height: 50px;  
+    display: flex;  
+    align-items: center;  
+    justify-content: center;  
+    background: linear-gradient(145deg, #1a1a1a, #2a2a2a);  
+    border-radius: 50%;  
+    box-shadow:   
+        5px 5px 10px rgba(0, 0, 0, 0.3),  
+        -5px -5px 10px rgba(50, 50, 50, 0.1);  
+    transition: all 0.3s ease;  
+}  
+
+.nav-item-enhanced:hover .nav-icon-wrapper,  
+.nav-item-enhanced.active .nav-icon-wrapper {  
+    transform: scale(1.1);  
+    box-shadow:   
+        5px 5px 15px rgba(0, 0, 0, 0.4),  
+        -5px -5px 15px rgba(50, 50, 50, 0.2);  
+}  
+
+.nav-icon-wrapper i {  
+    color: #FFD700;  
+    font-size: 24px;  
+    position: relative;  
+    z-index: 2;  
+}  
+
+.nav-icon-glow {  
+    position: absolute;  
+    top: -10px;  
+    left: -10px;  
+    right: -10px;  
+    bottom: -10px;  
+    background: radial-gradient(  
+        circle,   
+        rgba(255, 215, 0, 0.2),   
+        transparent 70%  
+    );  
+    border-radius: 50%;  
+    opacity: 0;  
+    transition: opacity 0.3s ease;  
+    z-index: 1;  
+}  
+
+.nav-item-enhanced:hover .nav-icon-glow,  
+.nav-item-enhanced.active .nav-icon-glow {  
+    opacity: 1;  
+}  
+
+.nav-label {  
+    margin-top: 8px;  
+    font-size: 0.7em;  
+    color: #FFD700;  
+    opacity: 0.7;  
+    transition: all 0.3s ease;  
+}  
+
+.nav-item-enhanced:hover .nav-label,  
+.nav-item-enhanced.active .nav-label {  
+    opacity: 1;  
+    transform: translateY(-3px);  
+}  
+
+@keyframes nav-item-pulse {  
+    0% {  
+        transform: scale(1);  
+    }  
+    50% {  
+        transform: scale(1.05);  
+    }  
+    100% {  
+        transform: scale(1);  
+    }  
+}  
+
+.nav-item-enhanced.active {  
+    animation: nav-item-pulse 0.5s ease-in-out;  
+}
+/* Effet Particles.js (optionnel mais recommandé) */  
+#particles-js {  
+    position: fixed;  
+    top: 0;  
+    left: 0;  
+    width: 100%;  
+    height: 100%;  
+    z-index: -2;  
+    opacity: 0.3;  
+} 
+.invite-reward {
+    font-size: 1.2em;
+    color: #ff5722; /* Couleur lumineuse */
+    text-align: center;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.task-card {
+    transition: transform 0.3s;
+}
+
+.task-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
