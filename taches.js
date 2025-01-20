@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Ajoutez une variable pour stocker le lien d'invitation
-    const inviteLink = "https://votre-site.com/invitation?ref=" + Date.now(); // URL fictive avec un paramètre unique
+    const inviteLink = "https://alhasan-ngandeu.github.io/bot-site/invitation?ref=" + Date.now(); // URL fictive avec un paramètre unique
 
     // Gestion de la tâche de partage
     shareBtn.addEventListener('click', function() {
