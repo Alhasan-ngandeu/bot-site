@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Ajoutez une variable pour stocker le lien d'invitation
     const userId = Date.now(); // Un identifiant unique pour l'utilisateur
-    const inviteLink = `https://alhasan-ngandeu.github.io/bot-site/invitation?ref=${userId}`;
+    const inviteLink = `https://alhasan-ngandeu.github.io/bot-site/index.html?ref=${userId}`;
 
     // Gestion de la tâche de partage
     shareBtn.addEventListener('click', function() {
@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 2000);
     });
 
+    // Vérifier si un paramètre d'invitation est présent dans l'URL
     // Vérifier si un paramètre d'invitation est présent dans l'URL
     const urlParams = new URLSearchParams(window.location.search);
     const referrerId = urlParams.get('ref');
