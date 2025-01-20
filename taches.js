@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Simuler un système de points/solde
     let userBalance = parseFloat(localStorage.getItem('balance')) || 0; // Récupérer le solde
+    let invitationCount = parseInt(localStorage.getItem('invitationCount')) || 0; // Compteur d'invitations
     const TASK_POINTS = {
         AD_WATCH: 300, // Montant pour chaque publicité
         SHARE_INVITE: 500 // Montant pour chaque invitation
@@ -89,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
             balanceElement.textContent = userBalance.toFixed(1);
         }
         localStorage.setItem('balance', userBalance);
+        localStorage.setItem('invitationCount', invitationCount); // Sauvegarder le compteur d'invitations
     }
 
     // Fonction pour gérer le visionnage des publicités
@@ -117,10 +119,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Ajoutez une variable pour stocker le lien d'invitation
+    // Générer le lien d'invitation
     const userId = Date.now(); // Un identifiant unique pour l'utilisateur
     const inviteLink = `https://alhasan-ngandeu.github.io/bot-site/index.html?ref=${userId}`;
-    
 
     // Gestion de la tâche de partage
     shareBtn.addEventListener('click', function() {
@@ -151,12 +152,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Vérifier si un paramètre d'invitation est présent dans l'URL
-    // Vérifier si un paramètre d'invitation est présent dans l'URL
     const urlParams = new URLSearchParams(window.location.search);
     const referrerId = urlParams.get('ref');
     if (referrerId) {
-        // Augmentez le solde de l'utilisateur correspondant
-        userBalance += TASK_POINTS.SHARE_INVITE;
+        invitationCount += 1; // Incrémenter le compteur d'invitations
+        userBalance += TASK_POINTS.SHARE_INVITE; // Augmentez le solde de l'utilisateur correspondant
         updateBalanceDisplay();
         showCustomPopup(`+${TASK_POINTS.SHARE_INVITE} FCFA pour avoir invité un ami !`);
     }
