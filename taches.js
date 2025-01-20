@@ -15,11 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Fonction pour créer un popup personnalisé et élégant
     function showCustomPopup(message, type = 'success') {
-        // Créer l'élément du popup
         const popup = document.createElement('div');
         popup.className = `custom-popup ${type}`;
-
-        // Structure HTML du popup
         popup.innerHTML = `
             <div class="popup-content">
                 <div class="popup-icon">
@@ -30,8 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="popup-message">${message}</div>
             </div>
         `;
-
-        // Ajouter le style CSS directement dans le javascript
         const style = document.createElement('style');
         style.textContent = `
             .custom-popup {
@@ -48,62 +43,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 animation: popupAppear 0.3s ease-out, popupDisappear 0.3s ease-in forwards;
                 animation-delay: 0s, 2.7s;
             }
-
             .custom-popup.success {
                 background: linear-gradient(135deg, #4CAF50, #45a049);
                 color: white;
             }
-
             .custom-popup.error {
                 background: linear-gradient(135deg, #f44336, #d32f2f);
                 color: white;
             }
-
             .popup-content {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
             }
-
             .popup-icon {
                 font-size: 60px;
                 margin-bottom: 15px;
                 opacity: 0.9;
             }
-
             .popup-message {
                 font-size: 16px;
                 font-weight: 500;
             }
-
             @keyframes popupAppear {
-                from {
-                    opacity: 0;
-                    transform: translate(-50%, -50%) scale(0.7);
-                }
-                to {
-                    opacity: 1;
-                    transform: translate(-50%, -50%) scale(1);
-                }
+                from { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+                to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
             }
-
             @keyframes popupDisappear {
-                from {
-                    opacity: 1;
-                    transform: translate(-50%, -50%) scale(1);
-                }
-                to {
-                    opacity: 0;
-                    transform: translate(-50%, -50%) scale(0.7);
-                }
+                from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                to { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
             }
         `;
-
-        // Ajouter le style et le popup au body
         document.head.appendChild(style);
         document.body.appendChild(popup);
-
-        // Supprimer le popup après l'animation
         setTimeout(() => {
             document.body.removeChild(popup);
             document.head.removeChild(style);
@@ -114,9 +86,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateBalanceDisplay() {
         const balanceElement = document.getElementById('balance');
         if (balanceElement) {
-            balanceElement.textContent = userBalance.toFixed(1); // Affiche le solde
+            balanceElement.textContent = userBalance.toFixed(1);
         }
-        localStorage.setItem('balance', userBalance); // Stocker le nouveau solde
+        localStorage.setItem('balance', userBalance);
     }
 
     // Fonction pour gérer le visionnage des publicités
@@ -124,15 +96,11 @@ document.addEventListener('DOMContentLoaded', function() {
         button.disabled = true;
         button.textContent = "Revenez dans 24h pour regarder une nouvelle publicité";
 
-        // Simuler le visionnage d'une publicité
         setTimeout(() => {
-            userBalance += TASK_POINTS.AD_WATCH; // Incrémentation du solde
-            updateBalanceDisplay(); // Mettre à jour l'affichage du solde
-
-            // Utiliser le nouveau popup personnalisé
+            userBalance += TASK_POINTS.AD_WATCH;
+            updateBalanceDisplay();
             showCustomPopup(`+${TASK_POINTS.AD_WATCH} FCFA pour avoir regardé la publicité`);
-
-            localStorage.setItem(button.id, Date.now()); // Enregistre le dernier clic
+            localStorage.setItem(button.id, Date.now());
         }, 2000);
     }
 
@@ -150,13 +118,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Ajoutez une variable pour stocker le lien d'invitation
-    const inviteLink = "https://alhasan-ngandeu.github.io/bot-site/invitation?ref=" + Date.now(); // URL fictive avec un paramètre unique
+    const userId = Date.now(); // Un identifiant unique pour l'utilisateur
+    const inviteLink = `https://alhasan-ngandeu.github.io/bot-site/invitation?ref=${userId}`;
 
     // Gestion de la tâche de partage
     shareBtn.addEventListener('click', function() {
         shareBtn.disabled = true;
 
-        // Afficher une fenêtre de partage
         const shareMessage = `Partagez ce lien avec vos amis pour gagner 500 FCFA: ${inviteLink}`;
         if (navigator.share) {
             navigator.share({
@@ -164,29 +132,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 text: shareMessage,
                 url: inviteLink
             }).then(() => {
-                // Lorsque le partage est réussi
-                userBalance += TASK_POINTS.SHARE_INVITE; // Ajoutez les points
-                updateBalanceDisplay();
-                showCustomPopup(`+${TASK_POINTS.SHARE_INVITE} FCFA pour avoir partagé l'app`);
+                // Ne rien faire ici, le solde sera mis à jour lorsque le lien sera utilisé
             }).catch((error) => {
                 console.error('Erreur lors du partage:', error);
             });
         } else {
-            // Si le partage n'est pas supporté, copier le lien dans le presse-papiers
             navigator.clipboard.writeText(inviteLink).then(() => {
                 showCustomPopup('Lien copié dans le presse-papiers ! Partagez-le avec vos amis.');
-                userBalance += TASK_POINTS.SHARE_INVITE; // Ajoutez les points
-                updateBalanceDisplay();
             }).catch(err => {
                 console.error('Erreur lors de la copie du lien:', err);
             });
         }
 
-        // Réactivez le bouton après un délai
         setTimeout(() => {
             shareBtn.disabled = false;
         }, 2000);
     });
+
+    // Vérifier si un paramètre d'invitation est présent dans l'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const referrerId = urlParams.get('ref');
+    if (referrerId) {
+        // Augmentez le solde de l'utilisateur correspondant
+        userBalance += TASK_POINTS.SHARE_INVITE;
+        updateBalanceDisplay();
+        showCustomPopup(`+${TASK_POINTS.SHARE_INVITE} FCFA pour avoir invité un ami !`);
+    }
 
     updateBalanceDisplay(); // Initialiser l'affichage du solde
 
