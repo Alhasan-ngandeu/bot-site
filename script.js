@@ -5,23 +5,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const settingsBtn = document.getElementById('settingsBtn');
     const languageModal = document.getElementById('languageModal');
     const languageButtons = document.querySelectorAll('.language-btn');
-    
+    const trophyBtn = document.getElementById('trophyBtn');
+
     // Récupérer l'ID utilisateur
     const userId = localStorage.getItem('userId') || `user_${Date.now()}`;
     localStorage.setItem('userId', userId);
-    
+
     // Initialize balance
     function updateBalanceDisplay() {
-        // Récupérer le solde spécifique à l'utilisateur
         const userSpecificBalance = parseFloat(localStorage.getItem(`balance_${userId}`)) || 0;
-        // Récupérer le solde général
         const generalBalance = parseFloat(localStorage.getItem('balance')) || 0;
-        // Utiliser le total des deux soldes
         const totalBalance = userSpecificBalance + generalBalance;
-        
+
         balanceElement.textContent = totalBalance.toFixed(1);
     }
-    
+
     // Translations
     const translations = {
         fr: {
@@ -60,12 +58,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Update active state of language buttons
         languageButtons.forEach(btn => {
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
 
-        // Store the selected language
         localStorage.setItem('preferredLanguage', lang);
     }
 
@@ -110,43 +106,86 @@ document.addEventListener('DOMContentLoaded', function() {
         updateBalanceDisplay();
     });
 
-    // Ajoutez ce code dans votre fonction DOMContentLoaded existante  
-    const trophyBtn = document.getElementById('trophyBtn');  
+    // Handle trophy button click
+    trophyBtn.addEventListener('click', function(e) {
+        e.preventDefault();
 
-    // Ajoutez ce gestionnaire d'événements  
-    trophyBtn.addEventListener('click', function(e) {  
-        e.preventDefault();  
-        
-        // Incrémentation du solde  
         const currentBalance = parseFloat(localStorage.getItem('balance')) || 0;
         const newBalance = currentBalance + 0.5;
         localStorage.setItem('balance', newBalance);
         updateBalanceDisplay();
-        
-        // Animation de ripple  
-        this.classList.add('ripple');  
-        
-        // Effet de pulsation  
-        this.addEventListener('animationend', function() {  
-            this.classList.remove('ripple');  
-        }, { once: true });  
+
+        this.classList.add('ripple');
+        this.addEventListener('animationend', function() {
+            this.classList.remove('ripple');
+        }, { once: true });
     });
-    
-    // Initialiser l'affichage du solde
-    updateBalanceDisplay();
-    
+
     // Vérifier les mises à jour du solde toutes les secondes
     setInterval(updateBalanceDisplay, 1000);
-    
-    particlesJS('particles-js', {  
-        particles: {  
-            number: { value: 80, density: { enable: true, value_area: 800 } },  
-            color: { value: '#ffffff' },  
-            shape: { type: 'circle' },  
-            opacity: { value: 0.5, random: false },  
-            size: { value: 3, random: true },  
-            line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4 },  
-            move: { enable: true, speed: 2, direction: 'none' }  
-        }  
+
+    // Vérifier le bonus de parrainage
+    function checkReferralBonus() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const referrerId = urlParams.get('ref');
+
+        if (referrerId && referrerId !== userId) {
+            const referralKey = `referred_${referrerId}_${userId}`;
+
+            if (!localStorage.getItem(referralKey)) {
+                // Récupérer le solde du PARRAIN
+                let referrerBalance = parseFloat(localStorage.getItem(`balance_${referrerId}`) || '0');
+
+                // Ajouter le bonus de 150 FCFA AU PARRAIN
+                referrerBalance += 150;
+                localStorage.setItem(`balance_${referrerId}`, referrerBalance.toString());
+
+                // Marquer ce parrainage comme traité
+                localStorage.setItem(referralKey, 'true');
+
+                // Notification pour le PARRAIN uniquement
+                if (referrerId === getCurrentUserId()) {
+                    showCustomNotification('Bonus de parrainage : Un nouvel utilisateur a utilisé votre lien !');
+                }
+            }
+        }
+    }
+
+    function getCurrentUserId() {
+        return localStorage.getItem('userId');
+    }
+
+    function showCustomNotification(message) {
+        const notificationContainer = document.createElement('div');
+        notificationContainer.className = 'referral-notification';
+        notificationContainer.innerHTML = `
+            <div class="notification-content">
+                <i class="fas fa-gift"></i>
+                <span>${message}</span>
+            </div>
+        `;
+        document.body.appendChild(notificationContainer);
+
+        setTimeout(() => {
+            document.body.removeChild(notificationContainer);
+        }, 5000);
+    }
+
+    // Initialiser l'affichage du solde
+    updateBalanceDisplay();
+    // Vérifier le bonus de parrainage
+    checkReferralBonus();
+
+    // Initialisation de particles.js
+    particlesJS('particles-js', {
+        particles: {
+            number: { value: 80, density: { enable: true, value_area: 800 } },
+            color: { value: '#ffffff' },
+            shape: { type: 'circle' },
+            opacity: { value: 0.5, random: false },
+            size: { value: 3, random: true },
+            line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4 },
+            move: { enable: true, speed: 2, direction: 'none' }
+        }
     });
 });

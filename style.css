@@ -933,4 +933,22 @@ header {
     font-size: 1.2rem;  
 }  
   
+.referral-notification {  
+    position: fixed;  
+    top: 20px;  
+    left: 50%;  
+    transform: translateX(-50%);  
+    background: linear-gradient(135deg, #4CAF50, #45a049);  
+    color: white;  
+    padding: 15px 30px;  
+    border-radius: 10px;  
+    z-index: 1000;  
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);  
+    display: flex;  
+    align-items: center;  
+}  
+.referral-notification i {  
+    margin-right: 10px;  
+    font-size: 24px;  
+}  
 
