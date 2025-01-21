@@ -6,10 +6,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const languageModal = document.getElementById('languageModal');
     const languageButtons = document.querySelectorAll('.language-btn');
     
+    // Récupérer l'ID utilisateur
+    const userId = localStorage.getItem('userId') || `user_${Date.now()}`;
+    localStorage.setItem('userId', userId);
+    
     // Initialize balance
-    // Initialize balance from localStorage
-    let balance = parseFloat(localStorage.getItem('balance')) || 0;
-    balanceElement.textContent = balance.toFixed(1); // Affiche le solde
+    function updateBalanceDisplay() {
+        // Récupérer le solde spécifique à l'utilisateur
+        const userSpecificBalance = parseFloat(localStorage.getItem(`balance_${userId}`)) || 0;
+        // Récupérer le solde général
+        const generalBalance = parseFloat(localStorage.getItem('balance')) || 0;
+        // Utiliser le total des deux soldes
+        const totalBalance = userSpecificBalance + generalBalance;
+        
+        balanceElement.textContent = totalBalance.toFixed(1);
+    }
     
     // Translations
     const translations = {
@@ -91,12 +102,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Handle taper button click
-    // Handle taper button click
     taperBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        balance += 0.5; // Incrémente le solde
-        localStorage.setItem('balance', balance); // Enregistre le solde dans localStorage
-        balanceElement.textContent = balance.toFixed(1); // Met à jour l'affichage
+        const currentBalance = parseFloat(localStorage.getItem('balance')) || 0;
+        const newBalance = currentBalance + 0.5;
+        localStorage.setItem('balance', newBalance);
+        updateBalanceDisplay();
     });
 
     // Ajoutez ce code dans votre fonction DOMContentLoaded existante  
@@ -107,9 +118,10 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();  
         
         // Incrémentation du solde  
-        balance += 0.5;  
-        localStorage.setItem('balance', balance); // Enregistre le solde dans localStorage
-        balanceElement.textContent = balance.toFixed(1); // Met à jour l'affichage
+        const currentBalance = parseFloat(localStorage.getItem('balance')) || 0;
+        const newBalance = currentBalance + 0.5;
+        localStorage.setItem('balance', newBalance);
+        updateBalanceDisplay();
         
         // Animation de ripple  
         this.classList.add('ripple');  
@@ -119,6 +131,12 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.remove('ripple');  
         }, { once: true });  
     });
+    
+    // Initialiser l'affichage du solde
+    updateBalanceDisplay();
+    
+    // Vérifier les mises à jour du solde toutes les secondes
+    setInterval(updateBalanceDisplay, 1000);
     
     particlesJS('particles-js', {  
         particles: {  
