@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Éléments du DOM
     const watchAdBtns = [
         document.getElementById('watchAdBtn1'),
         document.getElementById('watchAdBtn2'),
@@ -6,16 +7,17 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
     const shareBtn = document.getElementById('shareBtn');
 
+    // Initialisation du solde et de l'ID utilisateur
     let userBalance = parseFloat(localStorage.getItem('balance')) || 0;
     const userId = localStorage.getItem('userId') || `user_${Date.now()}`;
     localStorage.setItem('userId', userId);
 
     const TASK_POINTS = {
         AD_WATCH: 200,
-        SHARE_INVITE: 150,
-        REFERRAL_BONUS: 300
+        SHARE_INVITE: 150
     };
 
+    // Fonction pour créer un popup personnalisé
     function showCustomPopup(message, type = 'success') {
         const popup = document.createElement('div');
         popup.className = `custom-popup ${type}`;
@@ -84,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
 
+    // Mettre à jour l'affichage du solde
     function updateBalanceDisplay() {
         const balanceElement = document.getElementById('balance');
         if (balanceElement) {
@@ -92,31 +95,94 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('balance', userBalance);
     }
 
-    async function handleShare() {
-        const referralLink = `${window.location.origin}/index.html?ref=${userId}`;
+    // Vérifier le paramètre de parrainage dans l'URL
+    function checkReferral() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const referrerId = urlParams.get('ref');
         
-        try {
-            await navigator.clipboard.writeText(referralLink);
-            showCustomPopup('Lien de parrainage copié dans le presse-papiers !');
-        } catch (error) {
-            console.error('Erreur lors du partage:', error);
-            showCustomPopup('Erreur lors de la génération du lien', 'error');
+        if (referrerId && referrerId !== userId) {
+            const referralKey = `referred_${referrerId}_${userId}`;
+            if (!localStorage.getItem(referralKey)) {
+                // Ajouter les points au parrain
+                const referrerBalance = parseFloat(localStorage.getItem(`balance_${referrerId}`) || '0');
+                localStorage.setItem(`balance_${referrerId}`, (referrerBalance + TASK_POINTS.SHARE_INVITE).toString());
+                
+                // Marquer cet utilisateur comme parrainé
+                localStorage.setItem(referralKey, 'true');
+                
+                showCustomPopup('Bienvenue ! Vous avez été parrainé avec succès !');
+            }
         }
     }
 
-    watchAdBtns.forEach(button => {
-        button.addEventListener('click', () => {
-            button.disabled = true;
-            button.textContent = "Revenez dans 24h pour regarder une nouvelle publicité";
+    // Gestion du visionnage des publicités
+    function handleWatchAd(button) {
+        button.disabled = true;
+        button.textContent = "Revenez dans 24h pour regarder une nouvelle publicité";
+
+        setTimeout(() => {
             userBalance += TASK_POINTS.AD_WATCH;
             updateBalanceDisplay();
             showCustomPopup(`+${TASK_POINTS.AD_WATCH} FCFA pour avoir regardé la publicité`);
-        });
+            localStorage.setItem(button.id, Date.now());
+        }, 2000);
+    }
+
+    // Gestion du partage
+    async function handleShare() {
+        const referralLink = `${window.location.origin}${window.location.pathname}?ref=${userId}`;
+        
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: 'Rejoignez MONEY AFRIQUE',
+                    text: 'Utilisez mon lien de parrainage pour rejoindre MONEY AFRIQUE !',
+                    url: referralLink
+                });
+            } else {
+                await navigator.clipboard.writeText(referralLink);
+                showCustomPopup('Lien de parrainage copié dans le presse-papiers !');
+            }
+        } catch (error) {
+            console.error('Erreur lors du partage:', error);
+            showCustomPopup('Erreur lors du partage du lien', 'error');
+        }
+    }
+
+    // Initialisation des boutons de publicité
+    watchAdBtns.forEach(button => {
+        const lastClicked = localStorage.getItem(button.id);
+        if (lastClicked && (Date.now() - lastClicked < 24 * 60 * 60 * 1000)) {
+            button.disabled = true;
+            button.textContent = "Revenez dans 24h pour regarder une nouvelle publicité";
+        }
+
+        button.addEventListener('click', () => handleWatchAd(button));
     });
 
+    // Initialisation du bouton de partage
     if (shareBtn) {
         shareBtn.addEventListener('click', handleShare);
     }
 
+    // Vérifier le parrainage au chargement
+    checkReferral();
+    
+    // Initialiser l'affichage du solde
     updateBalanceDisplay();
+
+    // Configuration des particules
+    if (typeof particlesJS !== 'undefined') {
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: false },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4 },
+                move: { enable: true, speed: 2, direction: 'none' }
+            }
+        });
+    }
 });
