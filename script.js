@@ -44,6 +44,52 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+    // Demander le nom d'utilisateur si c'est la première connexion
+    function askForUsername() {  
+        const storedUsername = localStorage.getItem('username');  
+        const usernameModal = document.getElementById('usernameModal');  
+        const closeBtn = document.querySelector('.close-btn');  
+        const submitUsernameBtn = document.getElementById('submitUsernameBtn');  
+    
+        if (!storedUsername) {  
+            usernameModal.style.display = 'flex'; // Affiche le modal  
+    
+            // Événements pour fermer le modal  
+            closeBtn.onclick = function() {  
+                usernameModal.style.display = 'none';  
+            };  
+    
+            window.onclick = function(event) {  
+                if (event.target === usernameModal) {  
+                    usernameModal.style.display = 'none';  
+                }  
+            };  
+    
+            // Soumettre le nom d'utilisateur  
+            submitUsernameBtn.onclick = function() {  
+                const usernameInput = document.getElementById('usernameInput').value;  
+                if (usernameInput) {  
+                    localStorage.setItem('username', usernameInput);  
+                    updateCardHolder(usernameInput);  
+                    usernameModal.style.display = 'none'; // Ferme le modal  
+                }  
+            };  
+        } else {  
+            updateCardHolder(storedUsername);  
+        }  
+    }
+
+    // Mettre à jour le nom d'utilisateur dans la carte
+    function updateCardHolder(username) {
+        const cardHolderElement = document.querySelector('.card-holder');
+        if (cardHolderElement) {
+            cardHolderElement.textContent = username;
+        }
+    }
+
+    // Appeler la fonction lors du chargement de la page
+    askForUsername();
+
     // Function to update language
     function updateLanguage(lang) {
         document.documentElement.lang = lang;
@@ -171,6 +217,41 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
 
+    // Vérifier le bonus de parrainage toutes les 5 secondes
+    setInterval(checkReferralBonus, 5000);
+
+    // Vériier si un utilisateur a utilisé un lien de parrainage pour accéder à la page.
+    // Si oui, alors le solde du parrain doit être mis à jour. Son solde doit être le solde actuel + 150 FCFA.
+    // Pour éviter les abus, si un utilisateur a déjà été parrainé par un autre utilisateur, le bonus ne sera pas attribué.
+    // Pour cela, nous devons stocker les parrainages traités dans le localStorage.
+    // La clé pour cela pourrait être "referred_<referralId>_<userId>".
+    // Par exemple, si l'utilisateur 123 a été parrainé par l'utilisateur 456, la clé sera "referred_456_123".
+    // Si cette clé existe, cela signifie que l'utilisateur 123 a déjà été parrainé par l'utilisateur 456.
+    // Dans ce cas, le bonus ne sera pas attribué.
+    // Si l'utilisateur 123 est parrainé par un autre utilisateur, par exemple 789, alors la clé sera "referred_789_123".
+    // Dans ce cas, le bonus sera attribué.
+    // Pour stocker cette information, nous pouvons utiliser le localStorage.
+    // localStorage.setItem('referred_456_123', 'true');
+    function parrainage() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const referrerId = urlParams.get('ref');
+        if (referrerId && referrerId !== userId) {
+            const referralKey = `referred_${referrerId}_${userId}`;
+            if (!localStorage.getItem(referralKey)) {
+                let referrerBalance = parseFloat(localStorage.getItem(`balance_${referrerId}`) || '0');
+                referrerBalance += 150;
+                localStorage.setItem(`balance_${referrerId}`, referrerBalance.toString());
+                localStorage.setItem(referralKey, 'true');
+                if (referrerId === getCurrentUserId()) {
+                    showCustomNotification('Bonus de parrainage : Un nouvel utilisateur a utilisé votre lien !');
+                }
+            }
+        }
+    }
+
+    // Appeler la fonction parrainage toutes les 5 secondes
+    setInterval(parrainage, 5000);
+
     // Initialiser l'affichage du solde
     updateBalanceDisplay();
     // Vérifier le bonus de parrainage
@@ -189,28 +270,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Demander le nom d'utilisateur si c'est la première connexion
-    function askForUsername() {
-        const storedUsername = localStorage.getItem('username');
-        if (!storedUsername) {
-            const username = prompt("Veuillez entrer votre nom d'utilisateur :");
-            if (username) {
-                localStorage.setItem('username', username);
-                updateCardHolder(username);
-            }
-        } else {
-            updateCardHolder(storedUsername);
-        }
-    }
-
-    // Mettre à jour le nom d'utilisateur dans la carte
-    function updateCardHolder(username) {
-        const cardHolderElement = document.querySelector('.card-holder');
-        if (cardHolderElement) {
-            cardHolderElement.textContent = username;
-        }
-    }
-
-    // Appeler la fonction lors du chargement de la page
-    askForUsername();
+    
 });

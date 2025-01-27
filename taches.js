@@ -73,10 +73,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    const generateReferralLink = () => {
-        const userId = localStorage.getItem('userId');
-        const referralLink = `index.html?ref=${userId}`;
-        return referralLink;
+    const generateReferralLink = () => {  
+        const userId = localStorage.getItem('userId');  
+        const referralLink = `${window.location.origin}/index.html?ref=${userId}`; // Modifiez ici pour diriger vers index.html  
+        return referralLink;  
     };
     
 
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Gestion du partage
     async function handleShare() {
-        const referralLink = `${window.location.origin}${window.location.pathname}?ref=${userId}`;
+        const referralLink = generateReferralLink();
         
         try {
             await navigator.clipboard.writeText(referralLink);
