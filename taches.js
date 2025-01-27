@@ -11,11 +11,75 @@ document.addEventListener('DOMContentLoaded', function() {
     let userBalance = parseFloat(localStorage.getItem('balance')) || 0;
     const userId = localStorage.getItem('userId') || `user_${Date.now()}`;
     localStorage.setItem('userId', userId);
+    const username = localStorage.getItem('username');
 
     const TASK_POINTS = {
         AD_WATCH: 200,
         SHARE_INVITE: 150
     };
+
+    // Fonction pour enregistrer un nouvel utilisateur
+// Fonction pour enregistrer un nouvel utilisateur
+    function registerNewUser(newUsername) {
+        const existingUsernames = JSON.parse(localStorage.getItem('usernames')) || [];
+        
+        // Vérifier si le nom d'utilisateur existe déjà
+        if (existingUsernames.includes(newUsername)) {
+            showCustomPopup('Ce nom d\'utilisateur est déjà utilisé.', 'error');
+            return;
+        }
+
+        // Ajouter le nouveau nom d'utilisateur à la liste
+        existingUsernames.push(newUsername);
+        localStorage.setItem('usernames', JSON.stringify(existingUsernames));
+
+        // Vérifier le parrainage
+        const urlParams = new URLSearchParams(window.location.search);
+        const referrerId = urlParams.get('ref');
+
+        if (referrerId) {
+            const referralKey = `referred_${referrerId}_${userId}`;
+            
+            // Marquer cet utilisateur comme parrainé
+            localStorage.setItem(referralKey, 'true');
+
+            // Mettre à jour le solde du parrain uniquement après l'inscription
+            const addReferralPoints = () => {
+                const referrerBalance = parseFloat(localStorage.getItem(`balance_${referrerId}`) || '0');
+                localStorage.setItem(`balance_${referrerId}`, (referrerBalance + TASK_POINTS.SHARE_INVITE).toString());
+                showCustomPopup('Vous avez gagné 150 FCFA pour avoir été parrainé.', 'success');
+            };
+
+            // Appeler la fonction pour ajouter des points après une pause simulée
+            setTimeout(addReferralPoints, 1000); // Attendre 1 seconde avant d'ajouter les points
+
+            showCustomPopup('Inscription réussie !', 'success');
+        } else {
+            showCustomPopup('Inscription réussie !', 'success');
+        }
+    }
+
+    // Exemple d'utilisation lors de la demande du nom d'utilisateur
+    
+    function askForUsername() {
+        const usernameModal = document.getElementById('usernameModal');
+        usernameModal.classList.add('active');
+
+        const startBtn = document.getElementById('startBtn');
+        startBtn.addEventListener('click', function() {
+            const usernameInput = document.getElementById('usernameInput').value;
+            registerNewUser(usernameInput); // Appel à la fonction d'enregistrement
+            usernameModal.classList.remove('active'); // Fermer le modal
+        });
+    }
+
+    const generateReferralLink = () => {
+        const userId = localStorage.getItem('userId');
+        const referralLink = `index.html?ref=${userId}`;
+        return referralLink;
+    };
+    
+
 
     // Fonction pour créer un popup personnalisé
     function showCustomPopup(message, type = 'success') {
@@ -133,19 +197,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const referralLink = `${window.location.origin}${window.location.pathname}?ref=${userId}`;
         
         try {
-            if (navigator.share) {
-                await navigator.share({
-                    title: 'Rejoignez MONEY AFRIQUE',
-                    text: 'Utilisez mon lien de parrainage pour rejoindre MONEY AFRIQUE !',
-                    url: referralLink
-                });
-            } else {
-                await navigator.clipboard.writeText(referralLink);
-                showCustomPopup('Lien de parrainage copié dans le presse-papiers !');
-            }
+            await navigator.clipboard.writeText(referralLink);
+            showCustomPopup('Lien de parrainage copié dans le presse-papiers !');
         } catch (error) {
-            console.error('Erreur lors du partage:', error);
-            showCustomPopup('Erreur lors du partage du lien', 'error');
+            console.error('Erreur lors de la copie:', error);
+            showCustomPopup('Erreur lors de la copie du lien', 'error');
         }
     }
 
@@ -167,6 +223,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Vérifier le parrainage au chargement
     checkReferral();
+
+    // Demander le nom d'utilisateur si ce n'est pas déjà fait
+    if (!username) {
+        askForUsername();
+    }
+
+    // Initialiser le solde du parrain
+    const referralBalance = parseFloat(localStorage.getItem(`balance_${userId}`) || '0');
+    userBalance += referralBalance;
+    localStorage.setItem(`balance_${userId}`, '0');
+
+    generateReferralLink();
     
     // Initialiser l'affichage du solde
     updateBalanceDisplay();
