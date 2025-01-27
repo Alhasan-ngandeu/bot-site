@@ -188,4 +188,29 @@ document.addEventListener('DOMContentLoaded', function() {
             move: { enable: true, speed: 2, direction: 'none' }
         }
     });
+
+    // Demander le nom d'utilisateur si c'est la première connexion
+    function askForUsername() {
+        const storedUsername = localStorage.getItem('username');
+        if (!storedUsername) {
+            const username = prompt("Veuillez entrer votre nom d'utilisateur :");
+            if (username) {
+                localStorage.setItem('username', username);
+                updateCardHolder(username);
+            }
+        } else {
+            updateCardHolder(storedUsername);
+        }
+    }
+
+    // Mettre à jour le nom d'utilisateur dans la carte
+    function updateCardHolder(username) {
+        const cardHolderElement = document.querySelector('.card-holder');
+        if (cardHolderElement) {
+            cardHolderElement.textContent = username;
+        }
+    }
+
+    // Appeler la fonction lors du chargement de la page
+    askForUsername();
 });

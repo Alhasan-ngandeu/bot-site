@@ -157,7 +157,7 @@ body {
 }  
 
 .nav-icon-wrapper {  
-    position: relative;  
+    position: relative;
     width: 50px;  
     height: 50px;  
     display: flex;  
@@ -193,8 +193,8 @@ body {
     right: -10px;  
     bottom: -10px;  
     background: radial-gradient(  
-        circle,   
-        rgba(255, 215, 0, 0.2),   
+        circle,  
+        rgba(255, 215, 0, 0.2),  
         transparent 70%  
     );  
     border-radius: 50%;  
@@ -237,7 +237,8 @@ body {
 .nav-item-enhanced.active {  
     animation: nav-item-pulse 0.5s ease-in-out;  
 }
-/* Effet Particles.js (optionnel mais recommandé) */  
+
+/* Effet Particles.js (optionnel mais recommandé) */
 #particles-js {  
     position: fixed;  
     top: 0;  
@@ -247,6 +248,7 @@ body {
     z-index: -2;  
     opacity: 0.3;  
 } 
+
 .invite-reward {
     font-size: 1.2em;
     color: #ff5722; /* Couleur lumineuse */
