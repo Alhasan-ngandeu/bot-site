@@ -270,5 +270,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    const navItems = document.querySelectorAll('.nav-item-enhanced');  
+
+    navItems.forEach(item => {  
+        item.addEventListener('click', function(event) {  
+            // Supprime la classe 'active' de tous les éléments .nav-item-enhanced  
+            navItems.forEach(item => item.classList.remove('active'));  
+
+            // Ajoute la classe 'active' à l'élément cliqué  
+            this.classList.add('active');  
+        });  
+    });  
+
+    // Définir l'élément actif basé sur la page actuelle  
+    const path = window.location.pathname;  
+
+    function setActiveLink(linkId) {  
+        navItems.forEach(item => item.classList.remove('active'));  
+        document.getElementById(linkId).classList.add('active');  
+    }  
+
+    if (path.includes("index.html") || path === "/") {  
+        setActiveLink("taperBtn");  
+    } else if (path.includes("taches.html")) {  
+        setActiveLink("tasksBtn");  
+    } else if (path.includes("jeux.html")) {  
+        setActiveLink("minigameBtn");  
+    } else if (path.includes("retrait.html")) {  
+        setActiveLink("withdrawBtn");  
+    }
+
     
 });

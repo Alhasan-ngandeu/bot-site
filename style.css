@@ -952,3 +952,71 @@ header {
     font-size: 24px;  
 } 
 
+.bottom-nav-enhanced {  
+    display: flex;  
+    justify-content: space-around;  
+    align-items: center;  
+    background-color: #000; /* Fond noir pour la barre de navigation */  
+    padding: 10px;  
+    border-radius: 50px; /* Bords arrondis pour la barre de navigation */  
+    position: relative; /* Pour positionner le cercle jaune */  
+    overflow: hidden; /* Pour cacher les parties du cercle qui dépassent */  
+}  
+
+.nav-item-wrapper {  
+    position: relative;  
+    width: 70px; /* Ajustez selon la taille de votre menu */  
+    height: 70px; /* Ajustez selon la taille de votre menu */  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    transition: transform 0.3s ease;  
+}  
+
+.nav-item-enhanced {  
+    position: relative;  
+    z-index: 1; /* Assurez-vous que le menu est au-dessus du cercle */  
+    text-decoration: none;  
+    color: #fff; /* Couleur du texte par défaut */  
+    display: flex;  
+    flex-direction: column;  
+    align-items: center;  
+    justify-content: center;  
+    transition: color 0.3s ease;  
+}  
+
+.nav-item-enhanced.active {  
+    color: #000; /* Couleur du texte actif */  
+}  
+
+.nav-item-enhanced.active::before {  
+    content: '';  
+    position: absolute;  
+    top: 35%;  
+    left: 50%;  
+    width: 55px; /* Diamètre du cercle jaune */  
+    height: 55px; /* Diamètre du cercle jaune */  
+    background-color: #FFDA63; /* Jaune pour le cercle */  
+    border-radius: 50%;  
+    transform: translate(-50%, -50%) scale(0); /* Positionnement et échelle initiale à 0 */  
+    z-index: -1; /* Place le cercle derrière le menu */  
+    transition: transform 0.3s ease; /* Animation de l'apparition du cercle */  
+}  
+
+.nav-item-enhanced.active::before {  
+    transform: translate(-50%, -50%) scale(1); /* Affiche le cercle */  
+}  
+
+.nav-icon-wrapper i {  
+    color: #fff; /* Couleur de l'icône par défaut */  
+    transition: color 0.3s ease;  
+}  
+
+.nav-item-enhanced.active .nav-icon-wrapper i {  
+    color: #000; /* Couleur de l'icône active */  
+}  
+
+.nav-label {  
+    font-size: 0.8em;  
+    margin-top: 5px;  
+}
