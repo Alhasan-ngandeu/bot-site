@@ -300,5 +300,5 @@ document.addEventListener('DOMContentLoaded', function() {
         setActiveLink("withdrawBtn");  
     }
 
-    
+    document.addEventListener('contextmenu', event => event.preventDefault());
 });
