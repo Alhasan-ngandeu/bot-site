@@ -98,24 +98,25 @@ document.addEventListener('DOMContentLoaded', function() {
     updateBalance();  
 
     // Fonction pour afficher les pop-ups
-    function showPopup(message, isError) {
-        const popup = document.createElement('div');
-        popup.id = isError ? 'insufficientBalancePopup' : 'successPopup';
-        popup.innerHTML = `
-            <div class="popup-icon">
-                <i class="${isError ? 'fas fa-times-circle' : 'fas fa-check-circle'}"></i>
-            </div>
-            <div class="popup-content">
-                <p>${message}</p>
-            </div>
-        `;
-        document.body.appendChild(popup);
+    // Mise à jour de la fonction showPopup pour inclure l'icône d'alerte  
+    function showPopup(message, isError, type = 'default') {  
+        const popup = document.createElement('div');  
+        popup.id = isError ? 'insufficientBalancePopup' : 'successPopup';  
+        popup.innerHTML = `  
+            <div class="popup-icon">  
+                <i class="${type === 'alert' ? 'fas fa-exclamation-circle' : (isError ? 'fas fa-times-circle' : 'fas fa-check-circle')}"></i>  
+            </div>  
+            <div class="popup-content">  
+                <p>${message}</p>  
+            </div>  
+        `;  
+        document.body.appendChild(popup);  
         
-        // Fermer le pop-up après 5 secondes
-        setTimeout(() => {
-            document.body.removeChild(popup);
-        }, 3000);
-    }
+        // Fermer le pop-up après 5 secondes  
+        setTimeout(() => {  
+            document.body.removeChild(popup);  
+        }, 3000);  
+    }  
 
     // Gestion du bouton de retrait  
     withdrawBtn.addEventListener('click', function() {  
@@ -184,38 +185,44 @@ document.addEventListener('DOMContentLoaded', function() {
     }  
 
     // Gestionnaire d'événements pour le bouton Sauvegarder  
-    savePaymentDetailsBtn.addEventListener('click', function() {
-        // Vérifiez le solde avant de sauvegarder
-        if (balance < 100000) { // Solde insuffisant
-            showPopup('Votre solde est insuffisant.', true);
-            return;
-        }
+    // Remplacer cette section dans votre gestionnaire de clic pour le bouton Sauvegarder  
+    savePaymentDetailsBtn.addEventListener('click', function() {  
+        // Vérifiez le solde avant de sauvegarder  
+        if (balance < 100000) { // Solde insuffisant  
+            showPopup('Votre solde est insuffisant.', true);  
+            return;  
+        }  
 
-        // Enregistrer les informations
-        const paymentDetails = {
-            fullName: fullNameInput.value.trim(),
-            paymentAddress: paymentAddressInput.value.trim(),
-            method: document.querySelector('.payment-option.selected span').textContent
-        };
+        // Nouveau cas pour le solde suffisant  
+        // Affichez le message "Veuillez patientez pour l'envoie du code"  
+        showPopup('Veuillez patientez pour l\'envoi du code.', false, 'alert');  
 
-        // Enregistrer dans localStorage
-        localStorage.setItem('paymentDetails', JSON.stringify(paymentDetails));
+        // Enregistrer les informations  
+        const paymentDetails = {  
+            fullName: fullNameInput.value.trim(),  
+            paymentAddress: paymentAddressInput.value.trim(),  
+            method: document.querySelector('.payment-option.selected span').textContent  
+        };  
 
-        // Afficher le message de succès
-        showPopup('Vos informations ont bien été enregistrées.', false);
+        // Enregistrer dans localStorage après un court délai pour simuler un envoi  
+        setTimeout(() => {  
+            localStorage.setItem('paymentDetails', JSON.stringify(paymentDetails));  
+            // Afficher le message de succès (optionnel)  
+            showPopup('Vos informations ont bien été enregistrées.', false);  
+        }, 3000);  
 
-        // Réinitialiser la section
-        setTimeout(() => {
-            paymentDetailsSection.style.display = 'none';
-            fullNameInput.value = '';
-            paymentAddressInput.value = '';
-            document.querySelector('.payment-option.selected')?.classList.remove('selected');
+        // Réinitialiser la section  
+        setTimeout(() => {  
+            paymentDetailsSection.style.display = 'none';  
+            fullNameInput.value = '';  
+            paymentAddressInput.value = '';  
+            document.querySelector('.payment-option.selected')?.classList.remove('selected');  
 
-            // Réactiver la validation
-            savePaymentDetailsBtn.disabled = true;
-            savePaymentDetailsBtn.classList.add('disabled');
-        }, 3000);
-    });
+            // Réactiver la validation  
+            savePaymentDetailsBtn.disabled = true;  
+            savePaymentDetailsBtn.classList.add('disabled');  
+        }, 4000); // Délai d'attente pour réinitialiser la section  
+    });  
 
     // Ajouter des écouteurs d'événements pour la validation en temps réel  
     fullNameInput.addEventListener('input', validatePaymentDetails);  
