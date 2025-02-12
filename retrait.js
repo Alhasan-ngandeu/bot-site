@@ -283,4 +283,6 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (path.includes("retrait.html")) {  
         setActiveLink("withdrawBtn");  
     }
+
+    document.addEventListener('contextmenu', event => event.preventDefault());
 });
